@@ -1,16 +1,284 @@
-# doctor_dashboard
+<div align="center">
 
-A new Flutter project.
+<!-- Replace the URL below with your actual project logo or banner image -->
+<img src="https://placehold.co/900x200/0E2240/FF6B2B?text=TeleRehab+%7C+AI-Powered+Remote+Physiotherapy&font=montserrat" alt="TeleRehab Banner" width="100%"/>
 
-## Getting Started
+# 🏥 TeleRehab — AI-Powered Remote Rehabilitation Platform
 
-This project is a starting point for a Flutter application.
+**Project 2030: MyAI Future Hackathon | Healthcare Track**
 
-A few resources to get you started if this is your first Flutter project:
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter)](https://flutter.dev)
+[![Firebase](https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth%20%7C%20RTDB-FFCA28?logo=firebase)](https://firebase.google.com)
+[![Gemini](https://img.shields.io/badge/Gemini-2.5--Flash-4285F4?logo=google)](https://ai.google.dev)
+[![Google Cloud](https://img.shields.io/badge/Deployed%20on-Cloud%20Run-4285F4?logo=googlecloud)](https://cloud.google.com/run)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+> **Remotely track and intelligently analyse patient rehabilitation progress — anywhere, anytime.**
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+</div>
+
+---
+
+## 📋 Table of Contents
+
+1. [Overview & National Impact](#overview--national-impact)
+2. [The Problem](#the-problem)
+3. [Features & Agentic AI](#features--agentic-ai)
+4. [Architecture Overview](#architecture-overview)
+5. [Tech Stack](#tech-stack)
+6. [Getting Started](#getting-started)
+7. [Deployment](#deployment)
+8. [AI Usage Disclosure](#ai-usage-disclosure)
+9. [Team](#team)
+
+---
+
+## 🌏 Overview & National Impact
+
+**TeleRehab** is a cross-platform tele-rehabilitation system that bridges the gap between physiotherapists and patients in remote or underserved communities across Malaysia. A wearable inertial sensor placed on the patient's thigh captures real-time biomechanical data during exercise sessions. This data is transmitted wirelessly to a cloud-backed doctor dashboard where clinicians can monitor, review, and receive AI-generated clinical progress notes — without the patient ever needing to travel.
+
+This project directly supports Malaysia's **Twelfth Malaysia Plan (12MP)** goals, particularly the commitment to strengthening healthcare delivery in rural and underserved areas, and aligns with **MyDIGITAL** ambitions to leverage AI for public sector transformation. By reducing the dependency on in-person clinic visits, TeleRehab has the potential to scale physiotherapy services to millions of Malaysians who currently lack convenient access to specialist care.
+
+---
+
+## 🚨 The Problem
+
+Malaysia's healthcare system faces a critical convergence of challenges in rehabilitation:
+
+| Challenge | Impact |
+|---|---|
+| **Practitioner Shortage** | Fewer than 4 physiotherapists per 10,000 people in rural Malaysia |
+| **Logistical Barriers** | Long travel distances make frequent clinic visits unfeasible |
+| **Unreliable Self-Reporting** | Patients subjectively over-report or under-report exercise compliance |
+| **Real-Time Feedback Latency** | Corrections to poor form or dangerous technique are delayed until the next appointment |
+| **Cognitive Accessibility** | Elderly or low-literacy patients struggle with complex app interfaces |
+| **Technology Abandonment** | 60%+ of digital health apps are abandoned within 30 days due to poor UX |
+
+TeleRehab addresses each of these pain points with a hardware-software-AI solution that is objective, accessible, and clinically actionable.
+
+---
+
+## ✨ Features & Agentic AI
+
+TeleRehab goes far beyond a simple data dashboard. It implements **Agentic AI** — where the Gemini model autonomously reasons over multiple data sources, makes clinical judgements, and produces structured recommendations without human prompting.
+
+### Core Features
+
+- **📡 Real-Time Sensor Streaming**
+  - Wearable thigh sensor streams live angle, rep count, and fall-detection data via Bluetooth Low Energy (BLE) to the patient's mobile device.
+  - Data is pushed to Firebase Realtime Database and displayed live on the doctor's dashboard.
+
+- **📊 Session Recording & History**
+  - Every rehabilitation session is automatically stored in Firestore (`session_history`) with timestamped metrics: pass/fail reps, duration, angle range, and fall probability.
+
+- **🤖 Agentic AI — Autonomous Clinical Note Generation**
+  - Powered by **Gemini 2.5 Flash**, the AI agent autonomously:
+    1. **Retrieves** the patient's last 10 sessions from Firestore (multi-session reasoning).
+    2. **Analyses** movement speed, success rates, angle range anomalies, and fall events.
+    3. **Cross-references** against clinical thresholds (e.g., `>120°` angle flags sensor anomaly).
+    4. **Generates** a formal, third-person clinical progress note in one step, without any manual input from the doctor.
+  - This is agentic because the model is given **tools (data retrieval)**, a **goal (write a note)**, and a **domain ruleset (clinical guidelines)** — and acts independently to fulfil it.
+
+- **⚠️ Intelligent Fall Detection Prioritisation**
+  - If a fall event is captured, the AI **overrides its default note structure** and leads with the fall incident, potential causes, and an urgent recommendation for physical assessment. This demonstrates autonomous priority reasoning.
+
+- **🔐 Secure, Role-Based Access**
+  - Firebase Authentication restricts all data access to authorised practitioners only.
+  - Firestore & Realtime Database security rules enforce server-side authentication checks.
+
+- **🎨 Clinician-Optimised UI**
+  - Glassmorphism-themed Flutter dashboard with animated backgrounds and clear data cards.
+  - Session history timeline with exercise-specific icons for instant recognition.
+
+---
+
+## 🏗️ Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                        PATIENT SIDE                                  │
+│                                                                      │
+│   ┌─────────────┐    BLE     ┌─────────────────────────────────┐   │
+│   │  Wearable   │──────────▶ │     Flutter Mobile App          │   │
+│   │  IMU Sensor │            │  (Angle, Reps, Fall Detection)  │   │
+│   │  (on thigh) │            └───────────┬─────────────────────┘   │
+└───────────────────────────-──────────────┼─────────────────────────┘
+                                           │ Firebase SDK (HTTPS/WSS)
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                      FIREBASE (Google Cloud)                          │
+│                                                                       │
+│  ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐ │
+│  │   Realtime DB    │   │    Firestore     │   │    Firebase      │ │
+│  │  (Live Streaming)│   │(Session History) │   │ Authentication  │ │
+│  └────────┬─────────┘   └────────┬─────────┘   └─────────────────┘ │
+└───────────┼──────────────────────┼──────────────────────────────────┘
+            │ Live Data            │ Historical Data
+            ▼                      ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│              DOCTOR DASHBOARD (Flutter Web — Cloud Run)               │
+│                                                                       │
+│   ┌─────────────────────────────────────────────────────────────┐   │
+│   │                    AiNoteService                             │   │
+│   │  1. Fetches last 10 sessions from Firestore                  │   │
+│   │  2. Builds structured clinical prompt with thresholds        │   │
+│   │  3. Calls Gemini 2.5 Flash via Firebase AI Logic SDK         │   │
+│   │  4. Returns a formal clinical paragraph to the dashboard     │   │
+│   └─────────────────────────────────────────────────────────────┘   │
+│                                │                                      │
+│                                ▼                                      │
+│   ┌─────────────────────────────────────────────────────────────┐   │
+│   │              Gemini 2.5 Flash (Google AI)                    │   │
+│   │      Autonomous multi-session reasoning & note generation    │   │
+│   └─────────────────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+**Key Architectural Decisions:**
+- **Firebase Realtime Database** is used for live, sub-second sensor data streams (optimised for WebSocket push).
+- **Cloud Firestore** is used for historical session records (optimised for structured queries and composite indexes).
+- **Firebase AI Logic SDK** (`firebase_ai` package) is used to call Gemini, ensuring the API key is managed server-side and never exposed in client code.
+- The doctor dashboard is a **Flutter Web** application deployed as a stateless container on **Google Cloud Run**, enabling auto-scaling to zero cost.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| **AI Model** | Gemini 2.5 Flash | Autonomous clinical note generation |
+| **AI SDK** | Firebase AI Logic (`firebase_ai`) | Secure server-side Gemini API access |
+| **Mobile App** | Flutter (Dart) | Patient-facing exercise app with BLE |
+| **Doctor Dashboard** | Flutter Web (Dart) | Clinician-facing monitoring portal |
+| **Live Database** | Firebase Realtime Database | Sub-second sensor data streaming |
+| **Historical DB** | Cloud Firestore | Session history, structured queries |
+| **Auth** | Firebase Authentication | Role-based access control |
+| **Deployment** | Google Cloud Run | Serverless, scalable web hosting |
+| **Hardware** | Custom IMU/BLE Sensor | Wearable thigh angle & fall detection |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+```bash
+# Flutter SDK (3.x or higher)
+flutter --version
+
+# Firebase CLI
+firebase --version
+
+# FlutterFire CLI (for Firebase configuration)
+dart pub global activate flutterfire_cli
+```
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/kkwanengineering-png/doctor_dashboard.git
+cd doctor_dashboard
+```
+
+### 2. Configure Firebase (Required — Keys are NOT in the repo)
+
+> ⚠️ **Security Notice:** All Firebase API keys and configuration files are excluded from this repository via `.gitignore`. You must generate your own local configuration by connecting to the Firebase project.
+
+```bash
+# Log in to Firebase
+firebase login
+
+# Configure Firebase for this project
+# This command regenerates firebase_options.dart and platform config files locally
+flutterfire configure --project=telerehab-a420e
+```
+
+This will generate:
+- `lib/firebase_options.dart`
+- `android/app/google-services.json`
+- `ios/Runner/GoogleService-Info.plist`
+
+See `FIREBASE_SETUP.md` in this repository for detailed instructions.
+
+### 3. Install Flutter Dependencies
+
+```bash
+flutter pub get
+```
+
+### 4. Run the App Locally
+
+```bash
+# Run as a web app (Doctor Dashboard)
+flutter run -d chrome
+
+# Run as a mobile app (Patient App — requires a connected device or emulator)
+flutter run
+```
+
+### 5. Deploy Firebase Security Rules & Indexes
+
+```bash
+# Deploy Firestore security rules and indexes
+firebase deploy --only firestore
+
+# Deploy Realtime Database rules
+firebase deploy --only database
+```
+
+---
+
+## ☁️ Deployment
+
+The Doctor Dashboard (Flutter Web) is deployed as a containerised application on **Google Cloud Run**:
+
+- **Build**: `flutter build web --release`
+- **Containerise**: A `Dockerfile` packages the compiled web output into an NGINX container.
+- **Deploy**: The container image is pushed to Google Artifact Registry and deployed to Cloud Run, which provides:
+  - **Auto-scaling** from zero to handle any number of concurrent clinicians.
+  - **HTTPS by default** with a managed TLS certificate.
+  - **Pay-per-use pricing**, making it cost-effective for a healthcare startup.
+
+```bash
+# Example Cloud Run deployment command
+gcloud run deploy telerehab-dashboard \
+  --image gcr.io/telerehab-a420e/dashboard:latest \
+  --platform managed \
+  --region asia-southeast1 \
+  --allow-unauthenticated
+```
+
+---
+
+## 🤖 AI Usage Disclosure
+
+In the spirit of full transparency and in compliance with the **Project 2030: MyAI Future Hackathon** ethics guidelines, we disclose the following AI tools used during the development of this project:
+
+| AI Tool | Version | Usage |
+|---|---|---|
+| **Antigravity (powered by Gemini)** | Flash | Used as an AI coding assistant within the IDE to accelerate code generation, debug issues, refactor components (e.g., Auth Gate, Login Screen, Security Rules), and write documentation. |
+| **Google Gemini** | 2.5 Pro | Used for architectural planning, code review, and generating boilerplate for complex Flutter widgets. |
+| **Gemini 2.5 Flash** | (via Firebase AI Logic) | The production AI model embedded **within the application** to autonomously generate clinical progress notes from session data. |
+
+> **Important Distinction:** Gemini Flash is not only a development tool — it is the **core product feature**, functioning as an embedded clinical AI agent within the application.
+>
+> All final code, architecture decisions, clinical prompt engineering, and system integration were reviewed, tested, and validated by the human development team. AI-generated code was never blindly committed without verification.
+
+---
+
+## 👥 Team
+
+**Track:** Healthcare
+**Hackathon:** Project 2030: MyAI Future Hackathon, Malaysia
+
+---
+
+<div align="center">
+
+Built with ❤️ for a healthier, more connected Malaysia.
+
+*Empowering physiotherapists. Reaching every patient.*
+
+</div>
