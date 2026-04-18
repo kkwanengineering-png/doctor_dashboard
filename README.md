@@ -267,7 +267,12 @@ In the spirit of full transparency and in compliance with the **Project 2030: My
 ---
 
 ## 👥 Team
-Lee Kwan Huai, 
+
+- Lee Kwan Huai
+- Nicholas Foo Han Wen
+- Desmond Tan Kai Lok
+- Wong Kar Ming
+
 **Track:** Healthcare
 **Hackathon:** Project 2030: MyAI Future Hackathon, Malaysia
 
