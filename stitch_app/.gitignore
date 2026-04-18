@@ -44,15 +44,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Firebase sensitive config files - DO NOT commit these to version control
-# Regenerate with: flutterfire configure
-lib/firebase_options.dart
+# Sensitive Firebase configuration and environment files
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
-macos/Runner/GoogleService-Info.plist
-
-# stitch_app (Patient Mobile App) - same Firebase config files, relative to monorepo root
-stitch_app/lib/firebase_options.dart
-stitch_app/android/app/google-services.json
-stitch_app/ios/Runner/GoogleService-Info.plist
-stitch_app/macos/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+*.env

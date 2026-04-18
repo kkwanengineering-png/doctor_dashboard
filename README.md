@@ -3,7 +3,7 @@
 <!-- Replace the URL below with your actual project logo or banner image -->
 <img src="https://placehold.co/900x200/EDE8D0/FF5800?text=TeleRehab+%7C+AI-Powered+Remote+Physiotherapy&font=montserrat" alt="TeleRehab Banner" width="100%"/>
 
-# 🏥 TeleRehab — AI-Powered Remote Rehabilitation Platform
+# 🏥 TeleRehab — AI-Powered Remote Rehabilitation System
 
 **Project 2030: MyAI Future Hackathon | Healthcare Track**
 
@@ -13,7 +13,7 @@
 [![Google Cloud](https://img.shields.io/badge/Deployed%20on-Cloud%20Run-4285F4?logo=googlecloud)](https://cloud.google.com/run)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-> **Remotely track and intelligently analyse patient rehabilitation progress — anywhere, anytime.**
+> **A unified tele-rehabilitation system: a wearable sensor talking to a patient mobile app, bridged by Firebase, analysed by Gemini AI, and monitored live by a clinician web dashboard.**
 
 </div>
 
@@ -23,19 +23,23 @@
 
 1. [Overview & National Impact](#overview--national-impact)
 2. [The Problem](#the-problem)
-3. [Features & Agentic AI](#features--agentic-ai)
-4. [Architecture Overview](#architecture-overview)
-5. [Tech Stack](#tech-stack)
-6. [Getting Started](#getting-started)
-7. [Deployment](#deployment)
-8. [AI Usage Disclosure](#ai-usage-disclosure)
-9. [Team](#team)
+3. [Repository Structure](#repository-structure)
+4. [Features & Agentic AI](#features--agentic-ai)
+5. [Architecture Overview](#architecture-overview)
+6. [Tech Stack](#tech-stack)
+7. [Getting Started](#getting-started)
+8. [Deployment](#deployment)
+9. [AI Usage Disclosure](#ai-usage-disclosure)
+10. [Team](#team)
 
 ---
 
 ## 🌏 Overview & National Impact
 
-**TeleRehab** is a cross-platform tele-rehabilitation system that bridges the gap between physiotherapists and patients in remote or underserved communities across Malaysia. A wearable inertial sensor placed on the patient's thigh captures real-time biomechanical data during exercise sessions. This data is transmitted wirelessly to a cloud-backed doctor dashboard where clinicians can monitor, review, and receive AI-generated clinical progress notes — without the patient ever needing to travel.
+**TeleRehab** is a **unified, cross-platform tele-rehabilitation system** that bridges the gap between physiotherapists and patients in remote or underserved communities across Malaysia. The system consists of two interconnected Flutter applications backed by a shared Firebase project:
+
+- **Stitch (Patient App)** — A mobile Flutter app. The patient straps a wearable IMU sensor to their thigh and performs exercises. The app connects to the sensor via BLE and streams live angle, rep, and fall detection data to the cloud.
+- **Doctor Dashboard (Web App)** — A Flutter Web app deployed on Google Cloud Run. The clinician sees live sensor feeds and session histories, and can invoke an AI agent powered by **Gemini 2.5 Flash** to autonomously generate a formal clinical progress note.
 
 This project directly supports Malaysia's **Twelfth Malaysia Plan (12MP)** goals, particularly the commitment to strengthening healthcare delivery in rural and underserved areas, and aligns with **MyDIGITAL** ambitions to leverage AI for public sector transformation. By reducing the dependency on in-person clinic visits, TeleRehab has the potential to scale physiotherapy services to millions of Malaysians who currently lack convenient access to specialist care.
 
@@ -89,6 +93,32 @@ TeleRehab goes far beyond a simple data dashboard. It implements **Agentic AI** 
 - **🎨 Clinician-Optimised UI**
   - Glassmorphism-themed Flutter dashboard with animated backgrounds and clear data cards.
   - Session history timeline with exercise-specific icons for instant recognition.
+
+---
+
+## 📁 Repository Structure
+
+This is a **monorepo** — both the patient-facing mobile app and the clinician-facing web dashboard share this single repository and the same Firebase project (`telerehab-a420e`).
+
+```
+doctor_dashboard/          ← Root repository
+├── lib/                   ← Doctor Dashboard source (Flutter Web)
+│   ├── screens/           ← Dashboard, Login screens
+│   ├── services/          ← AiNoteService, Firebase listeners
+│   └── main.dart          ← Web app entry point (with Auth Gate)
+├── stitch_app/            ← Patient Mobile App (Flutter Android/iOS)
+│   ├── lib/
+│   │   ├── screens/       ← Home, Exercises, per-exercise screens
+│   │   ├── services/      ← FirebaseService (RTDB + Firestore dual-write)
+│   │   │                     BleService, FallDetectionService
+│   │   └── main.dart      ← Mobile app entry point (anonymous auth)
+│   └── pubspec.yaml
+├── firestore.rules        ← Shared Firestore security rules
+├── database.rules.json    ← Shared Realtime DB security rules
+├── firestore.indexes.json ← Composite indexes for AI query
+├── firebase.json          ← Firebase project configuration
+└── README.md
+```
 
 ---
 
@@ -196,23 +226,39 @@ flutterfire configure --project=telerehab-a420e
 ```
 
 This will generate:
-- `lib/firebase_options.dart`
+- `lib/firebase_options.dart` (for the Doctor Dashboard)
 - `android/app/google-services.json`
 - `ios/Runner/GoogleService-Info.plist`
- 
-### 3. Install Flutter Dependencies
+
+Repeat for the Patient App:
 
 ```bash
+cd stitch_app
+flutterfire configure --project=telerehab-a420e
+```
+
+### 3. Install Flutter Dependencies
+
+**Doctor Dashboard (Web):**
+```bash
+# From the root directory
 flutter pub get
 ```
 
-### 4. Run the App Locally
+**Patient App (Mobile):**
+```bash
+cd stitch_app
+flutter pub get
+```
+
+### 4. Run the Apps
 
 ```bash
-# Run as a web app (Doctor Dashboard)
+# Doctor Dashboard — run as Flutter Web app
 flutter run -d chrome
 
-# Run as a mobile app (Patient App — requires a connected device or emulator)
+# Patient App — run on a connected Android/iOS device or emulator
+cd stitch_app
 flutter run
 ```
 
