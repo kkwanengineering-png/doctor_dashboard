@@ -77,6 +77,26 @@ class _LoginScreenState extends State<LoginScreen>
     }
   }
 
+  Future<void> _signInAsDemo() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: 'demo@telerehab.com',
+        password: 'password123',
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _errorMessage = _friendlyError(e.code);
+      });
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   String _friendlyError(String code) {
     switch (code) {
       case 'user-not-found':
@@ -204,6 +224,31 @@ class _LoginScreenState extends State<LoginScreen>
 
                                 // Sign In Button
                                 _buildSignInButton(),
+
+                                const SizedBox(height: 24),
+                                
+                                // Demo Access Divider
+                                Row(
+                                  children: [
+                                    Expanded(child: Divider(color: const Color(0xFFE2E8F0))),
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 12),
+                                      child: Text(
+                                        'OR',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF94A3B8),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(child: Divider(color: const Color(0xFFE2E8F0))),
+                                  ],
+                                ),
+                                const SizedBox(height: 24),
+
+                                // Demo Login Button (Hackathon bypass)
+                                _buildDemoButton(),
                               ],
                             ),
                           ),
@@ -212,12 +257,11 @@ class _LoginScreenState extends State<LoginScreen>
                         const SizedBox(height: 24),
                         // Footer note
                         Text(
-                          'Authorised personnel only',
+                          'Hackathon Judges: Click "Demo Access" or use\nEmail: demo@telerehab.com | Pass: password123',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
-                            color: const Color(
-                              0xFF64748B,
-                            ).withValues(alpha: 0.7),
+                            color: const Color(0xFF64748B).withValues(alpha: 0.7),
                           ),
                         ),
                       ],
@@ -407,6 +451,31 @@ class _LoginScreenState extends State<LoginScreen>
                   letterSpacing: 0.3,
                 ),
               ),
+      ),
+    );
+  }
+
+  Widget _buildDemoButton() {
+    return SizedBox(
+      height: 52,
+      child: OutlinedButton.icon(
+        onPressed: _isLoading ? null : _signInAsDemo,
+        icon: const Icon(Icons.speed_outlined, size: 20),
+        label: const Text(
+          'One-Click Demo Access',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.2,
+          ),
+        ),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppTheme.brandOrange,
+          side: const BorderSide(color: AppTheme.brandOrange, width: 1.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       ),
     );
   }

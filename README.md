@@ -286,12 +286,14 @@ The Doctor Dashboard (Flutter Web) is deployed as a containerised application on
   - **Pay-per-use pricing**, making it cost-effective for a healthcare startup.
 
 ```bash
-# Example Cloud Run deployment command
+# Deploy directly from source using Google Cloud Build
+# This will automatically build the Dockerfile and deploy to Cloud Run
 gcloud run deploy telerehab-dashboard \
-  --image gcr.io/telerehab-a420e/dashboard:latest \
+  --source . \
   --platform managed \
   --region asia-southeast1 \
-  --allow-unauthenticated
+  --allow-unauthenticated \
+  --port 8080
 ```
 
 ---
