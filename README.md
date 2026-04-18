@@ -199,9 +199,7 @@ This will generate:
 - `lib/firebase_options.dart`
 - `android/app/google-services.json`
 - `ios/Runner/GoogleService-Info.plist`
-
-See `FIREBASE_SETUP.md` in this repository for detailed instructions.
-
+ 
 ### 3. Install Flutter Dependencies
 
 ```bash
@@ -269,7 +267,7 @@ In the spirit of full transparency and in compliance with the **Project 2030: My
 ---
 
 ## 👥 Team
-
+Lee Kwan Huai, 
 **Track:** Healthcare
 **Hackathon:** Project 2030: MyAI Future Hackathon, Malaysia
 
