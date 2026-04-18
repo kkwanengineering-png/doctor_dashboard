@@ -1,0 +1,48 @@
+{
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "telerehab-a420e",
+          "appId": "1:924520562702:android:b17673edbfbaac25633c5f",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "telerehab-a420e",
+          "configurations": {
+            "android": "1:924520562702:android:b17673edbfbaac25633c5f",
+            "ios": "1:924520562702:ios:2f8bfd6d78e5e502633c5f",
+            "macos": "1:924520562702:ios:2f8bfd6d78e5e502633c5f",
+            "web": "1:924520562702:web:c0e6aa439e30b71b633c5f",
+            "windows": "1:924520562702:web:0ce9c7a230d0273d633c5f"
+          }
+        }
+      }
+    }
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "firestore": {
+    "database": "(default)",
+    "location": "asia-southeast1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}
