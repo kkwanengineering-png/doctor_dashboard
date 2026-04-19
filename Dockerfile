@@ -1,23 +1,26 @@
 # Stage 1: Build the Flutter Web App
 FROM ghcr.io/cirruslabs/flutter:3.27.0 as build-env
+
+# Setup directory with proper permissions
+USER root
+RUN mkdir -p /app && chown -R cirrus:cirrus /app
+
+# Switch to the default non-root cirrus user
+USER cirrus
 WORKDIR /app
 
-# Set user to root to avoid permission denied errors
-USER root
-
-# Fix Git dubious ownership error for Flutter SDK
+# Fix Git dubious ownership error (just in case)
 RUN git config --global --add safe.directory '*'
 
 # Copy dependency files and get packages
-COPY pubspec.yaml ./
-
+COPY --chown=cirrus:cirrus pubspec.yaml ./
 RUN flutter pub get
 
 # Copy the rest of the application
-COPY . .
+COPY --chown=cirrus:cirrus . .
 
-# Build the app for the web. We use standard web output since this will be static hosting via nginx
-RUN flutter build web --release
+# Build the app for the web with verbose logging to debug build termination
+RUN flutter build web -v --release
 
 # Stage 2: Serve the app with Nginx
 FROM nginx:alpine
