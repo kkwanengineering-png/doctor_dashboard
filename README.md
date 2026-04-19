@@ -1,7 +1,7 @@
-<div align="center">
-
 <!-- Replace the URL below with your actual project logo or banner image -->
-<img src="https://placehold.co/900x200/EDE8D0/FF5800?text=TeleRehab+%7C+AI-Powered+Remote+Physiotherapy&font=montserrat" alt="TeleRehab Banner" width="100%"/>
+<p align="center">
+  <img src="https://placehold.co/900x200/EDE8D0/FF5800?text=TeleRehab+%7C+AI-Powered+Remote+Physiotherapy&font=montserrat" alt="TeleRehab Banner" width="100%"/>
+</p>
 
 # 🏥 TeleRehab — AI-Powered Remote Rehabilitation System
 
@@ -14,8 +14,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 > **A unified tele-rehabilitation system: a wearable sensor talking to a patient mobile app, bridged by Firebase, analysed by Gemini AI, and monitored live by a clinician web dashboard.**
-
-</div>
 
 ---
 
