@@ -1,0 +1,28 @@
+# .gcloudignore
+# This file tells Google Cloud which files to SKIP when uploading your code.
+
+# Ignore Git and IDE metadata
+.git
+.gitignore
+.idea
+.vscode
+
+# Ignore heavy Flutter build artifacts (Cloud Run builds its own)
+.dart_tool/
+build/
+
+# Ignore Mobile/Desktop platforms (Not needed for Cloud Run Web deployment)
+android/
+ios/
+linux/
+macos/
+windows/
+
+# Ignore the Mobile App subfolder (HUGE timing saver!)
+# Cloud Run only needs the Doctor Dashboard files
+stitch_app/
+
+# Ignore local logs and temporary files
+*.log
+*.lock
+test.txt

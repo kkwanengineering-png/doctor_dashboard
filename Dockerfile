@@ -2,8 +2,12 @@
 FROM fischerscode/flutter:3.24.1 as build-env
 WORKDIR /app
 
+# Set user to root to avoid permission denied errors
+USER root
+
 # Copy dependency files and get packages
-COPY pubspec.* ./
+COPY pubspec.yaml ./
+
 RUN flutter pub get
 
 # Copy the rest of the application

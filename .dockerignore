@@ -1,0 +1,15 @@
+.git/
+.gitignore
+.dart_tool/
+build/
+android/
+ios/
+linux/
+macos/
+windows/
+stitch_app/
+pubspec.lock
+.pub-cache/
+.packages
+*.log
+*.lock
