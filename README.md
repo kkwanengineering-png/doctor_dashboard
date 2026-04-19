@@ -154,8 +154,8 @@ flowchart TD
         AiNoteService <--> Gemini
     end
 
-    App -- "HTTPS/WSS" --> RTDB
-    App -- "HTTPS" --> Firestore
+    App -- "WebSockets (WSS)" --> RTDB
+    App -- "REST (HTTPS)" --> Firestore
     App .-> Auth
 
     RTDB -- "Live Sensor Data" --> Dashboard
@@ -163,8 +163,8 @@ flowchart TD
 ```
 
 **Key Architectural Decisions:**
-- **Firebase Realtime Database** is used for live, sub-second sensor data streams (optimised for WebSocket push).
-- **Cloud Firestore** is used for historical session records (optimised for structured queries and composite indexes).
+- **WebSockets via Firebase Realtime Database:** We maintain persistent WebSocket (WSS) connections to enable true, sub-second live streaming of IMU sensor data. This bypasses the overhead of HTTP polling for zero-refresh UI updates.
+- **REST via Cloud Firestore:** Used for historical session records (optimised for structured queries, batched writes, and composite indexes).
 - **Firebase AI Logic SDK** (`firebase_ai` package) is used to call Gemini, ensuring the API key is managed server-side and never exposed in client code.
 - The doctor dashboard is a **Flutter Web** application deployed as a stateless container on **Google Cloud Run**, enabling auto-scaling to zero cost.
 
