@@ -1,7 +1,5 @@
 <!-- Replace the URL below with your actual project logo or banner image -->
-<p align="center">
-  <img src="https://placehold.co/900x200/EDE8D0/FF5800?text=TeleRehab+%7C+AI-Powered+Remote+Physiotherapy&font=montserrat" alt="TeleRehab Banner" width="100%"/>
-</p>
+![TeleRehab Banner](https://placehold.co/900x200/EDE8D0/FF5800?text=TeleRehab+%7C+AI-Powered+Remote+Physiotherapy&font=montserrat)
 
 # 🏥 TeleRehab — AI-Powered Remote Rehabilitation System
 
@@ -326,12 +324,8 @@ In the spirit of full transparency and in compliance with the **Project 2030: My
 
 ---
 
-<div align="center">
-
 Built with ❤️ for a healthier, more connected Malaysia.
 
 *Empowering physiotherapists. Reaching every patient.*
-
-</div>
    
  
