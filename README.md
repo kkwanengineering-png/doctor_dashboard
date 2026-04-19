@@ -122,44 +122,46 @@ doctor_dashboard/          ← Root repository
 
 ## 🏗️ Architecture Overview
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                            PATIENT SIDE                             │
-│                                                                     │
-│   ┌─────────────┐    BLE     ┌─────────────────────────────────┐    │
-│   │  Wearable   │──────────▶ │     Flutter Mobile App          │    │
-│   │  IMU Sensor │            │  (Angle, Reps, Fall Detection)  │    │
-│   │  (on thigh) │            └───────────┬─────────────────────┘    │
-└──────────────────────────────────────────┼──────────────────────────┘
-                                           │ Firebase SDK (HTTPS/WSS)
-                                           ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                       FIREBASE (Google Cloud)                       │
-│                                                                     │
-│  ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐ │
-│  │   Realtime DB    │   │    Firestore     │   │    Firebase      │ │
-│  │  (Live Streaming)│   │(Session History) │   │ Authentication   │ │
-│  └────────┬─────────┘   └────────┬─────────┘   └──────────────────┘ │
-└───────────┼──────────────────────┼──────────────────────────────────┘
-            │ Live Data            │ Historical Data
-            ▼                      ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│              DOCTOR DASHBOARD (Flutter Web — Cloud Run)             │
-│                                                                     │
-│   ┌─────────────────────────────────────────────────────────────┐   │
-│   │                       AiNoteService                         │   │
-│   │  1. Fetches last 10 sessions from Firestore                 │   │
-│   │  2. Builds structured clinical prompt with thresholds       │   │
-│   │  3. Calls Gemini 2.5 Flash via Firebase AI Logic SDK        │   │
-│   │  4. Returns a formal clinical paragraph to the dashboard    │   │
-│   └─────────────────────────────────────────────────────────────┘   │
-│                                  │                                  │
-│                                  ▼                                  │
-│   ┌─────────────────────────────────────────────────────────────┐   │
-│   │                Gemini 2.5 Flash (Google AI)                 │   │
-│   │      Autonomous multi-session reasoning & note generation   │   │
-│   └─────────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    %% Define styles
+    classDef mobile fill:#02569B,stroke:#fff,stroke-width:2px,color:#fff,rx:8px,ry:8px;
+    classDef cloud fill:#FFCA28,stroke:#fff,stroke-width:2px,color:#000,rx:8px,ry:8px;
+    classDef db fill:#F57C00,stroke:#fff,stroke-width:2px,color:#fff,rx:8px,ry:8px;
+    classDef web fill:#4285F4,stroke:#fff,stroke-width:2px,color:#fff,rx:8px,ry:8px;
+    classDef ai fill:#34A853,stroke:#fff,stroke-width:2px,color:#fff,rx:8px,ry:8px;
+    classDef hardware fill:#455A64,stroke:#fff,stroke-width:2px,color:#fff,rx:8px,ry:8px;
+
+    subgraph Patient["PATIENT SIDE"]
+        direction LR
+        Sensor["Wearable IMU Sensor<br />(on thigh)"]:::hardware
+        App["📱 Stitch Mobile App<br />(Angle, Reps, Fall Detection)"]:::mobile
+        Sensor -- "BLE" --> App
+    end
+
+    subgraph Firebase["FIREBASE (Google Cloud)"]
+        direction LR
+        RTDB[("Realtime DB<br />(Live Streaming)")]:::db
+        Firestore[("Firestore<br />(Session History)")]:::db
+        Auth{"Firebase<br />Authentication"}:::db
+    end
+
+    subgraph Doctor["DOCTOR DASHBOARD (Cloud Run)"]
+        direction TD
+        Dashboard["💻 Flutter Web Dashboard"]:::web
+        AiNoteService["🧠 AiNoteService<br/>1. Fetches last 10 sessions<br/>2. Builds clinical prompt<br/>3. Returns formal note"]:::web
+        Gemini["✨ Gemini 2.5 Flash<br/>(Firebase AI Logic SDK)"]:::ai
+        
+        Dashboard <--> AiNoteService
+        AiNoteService <--> Gemini
+    end
+
+    App -- "HTTPS/WSS" --> RTDB
+    App -- "HTTPS" --> Firestore
+    App .-> Auth
+
+    RTDB -- "Live Sensor Data" --> Dashboard
+    Firestore -- "Historical Range of Motion" --> AiNoteService
 ```
 
 **Key Architectural Decisions:**
