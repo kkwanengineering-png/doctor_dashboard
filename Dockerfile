@@ -1,12 +1,12 @@
 # Stage 1: Build the Flutter Web App
-FROM fischerscode/flutter:3.24.1 as build-env
+FROM ghcr.io/cirruslabs/flutter:3.27.0 as build-env
 WORKDIR /app
 
 # Set user to root to avoid permission denied errors
 USER root
 
 # Fix Git dubious ownership error for Flutter SDK
-RUN git config --global --add safe.directory /home/flutter/flutter-sdk
+RUN git config --global --add safe.directory '*'
 
 # Copy dependency files and get packages
 COPY pubspec.yaml ./

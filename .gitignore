@@ -46,7 +46,7 @@ app.*.map.json
 
 # Firebase sensitive config files - DO NOT commit these to version control
 # Regenerate with: flutterfire configure
-lib/firebase_options.dart
+# lib/firebase_options.dart (Removed because Web config keys are safe for public repos)
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 macos/Runner/GoogleService-Info.plist
