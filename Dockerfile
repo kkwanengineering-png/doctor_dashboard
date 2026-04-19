@@ -5,6 +5,9 @@ WORKDIR /app
 # Set user to root to avoid permission denied errors
 USER root
 
+# Fix Git dubious ownership error for Flutter SDK
+RUN git config --global --add safe.directory /home/flutter/flutter-sdk
+
 # Copy dependency files and get packages
 COPY pubspec.yaml ./
 
