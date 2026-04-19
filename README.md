@@ -1,7 +1,7 @@
 <!-- Replace the URL below with your actual project logo or banner image -->
-![TeleRehab Banner](https://placehold.co/900x200/EDE8D0/FF5800?text=TeleRehab+%7C+AI-Powered+Remote+Physiotherapy&font=montserrat)
+![Bugs Banner](https://placehold.co/900x200/EDE8D0/FF5800?text=Bugs+%7C+AI-Powered+Remote+Physiotherapy&font=montserrat)
 
-# 🏥 TeleRehab — AI-Powered Remote Rehabilitation System
+# 🏥 Bugs — AI-Powered Remote Rehabilitation System
 
 **Project 2030: MyAI Future Hackathon | Healthcare Track**
 
@@ -32,12 +32,12 @@
 
 ## 🌏 Overview & National Impact
 
-**TeleRehab** is a **unified, cross-platform tele-rehabilitation system** that bridges the gap between physiotherapists and patients in remote or underserved communities across Malaysia. The system consists of two interconnected Flutter applications backed by a shared Firebase project:
+**Bugs** is a **unified, cross-platform tele-rehabilitation system** that bridges the gap between physiotherapists and patients in remote or underserved communities across Malaysia. The system consists of two interconnected Flutter applications backed by a shared Firebase project:
 
 - **Stitch (Patient App)** — A mobile Flutter app. The patient straps a wearable IMU sensor to their thigh and performs exercises. The app connects to the sensor via BLE and streams live angle, rep, and fall detection data to the cloud.
 - **Doctor Dashboard (Web App)** — A Flutter Web app deployed on Google Cloud Run. The clinician sees live sensor feeds and session histories, and can invoke an AI agent powered by **Gemini 2.5 Flash** to autonomously generate a formal clinical progress note.
 
-This project directly supports Malaysia's **Twelfth Malaysia Plan (12MP)** goals, particularly the commitment to strengthening healthcare delivery in rural and underserved areas, and aligns with **MyDIGITAL** ambitions to leverage AI for public sector transformation. By reducing the dependency on in-person clinic visits, TeleRehab has the potential to scale physiotherapy services to millions of Malaysians who currently lack convenient access to specialist care.
+This project directly supports Malaysia's **Twelfth Malaysia Plan (12MP)** goals, particularly the commitment to strengthening healthcare delivery in rural and underserved areas, and aligns with **MyDIGITAL** ambitions to leverage AI for public sector transformation. By reducing the dependency on in-person clinic visits, Bugs has the potential to scale physiotherapy services to millions of Malaysians who currently lack convenient access to specialist care.
 
 ---
 
@@ -54,13 +54,13 @@ Malaysia's healthcare system faces a critical convergence of challenges in rehab
 | **Cognitive Accessibility** | Elderly or low-literacy patients struggle with complex app interfaces |
 | **Technology Abandonment** | 60%+ of digital health apps are abandoned within 30 days due to poor UX |
 
-TeleRehab addresses each of these pain points with a hardware-software-AI solution that is objective, accessible, and clinically actionable.
+Bugs addresses each of these pain points with a hardware-software-AI solution that is objective, accessible, and clinically actionable.
 
 ---
 
 ## ✨ Features & Agentic AI
 
-TeleRehab goes far beyond a simple data dashboard. It implements **Agentic AI** — where the Gemini model autonomously reasons over multiple data sources, makes clinical judgements, and produces structured recommendations without human prompting.
+Bugs goes far beyond a simple data dashboard. It implements **Agentic AI** — where the Gemini model autonomously reasons over multiple data sources, makes clinical judgements, and produces structured recommendations without human prompting.
 
 ### Core Features
 

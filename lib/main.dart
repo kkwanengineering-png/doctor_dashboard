@@ -32,7 +32,7 @@ class DoctorDashboardApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Telerehab Dashboard',
+      title: 'Bugs Dashboard',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.themeData,
       home: const _AuthGate(),
