@@ -327,5 +327,3 @@ In the spirit of full transparency and in compliance with the **Project 2030: My
 Built with ❤️ for a healthier, more connected Malaysia.
 
 *Empowering physiotherapists. Reaching every patient.*
-   
- 
