@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen>
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: 'demo@bugs.com',
+        email: 'demo@telerehab.com',
         password: 'password123',
       );
     } on FirebaseAuthException catch (e) {
@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen>
                                 ),
                                 const SizedBox(height: 6),
                                 const Text(
-                                  'Access the Bugs Doctor Dashboard',
+                                  'Access the Telerehab Doctor Dashboard',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF64748B),
@@ -173,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen>
                                 const SizedBox(height: 8),
                                 _buildTextField(
                                   controller: _emailController,
-                                  hintText: 'doctor@bugs.com',
+                                  hintText: 'doctor@telerehab.com',
                                   icon: Icons.email_outlined,
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (v) {
@@ -257,7 +257,7 @@ class _LoginScreenState extends State<LoginScreen>
                         const SizedBox(height: 24),
                         // Footer note
                         Text(
-                          'Hackathon Judges: Click "Demo Access" or use\nEmail: demo@bugs.com | Pass: password123',
+                          'Hackathon Judges: Click "Demo Access" or use\nEmail: demo@telerehab.com | Pass: password123',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
@@ -304,7 +304,7 @@ class _LoginScreenState extends State<LoginScreen>
         ),
         const SizedBox(height: 16),
         const Text(
-          'Bugs',
+          'Telerehab',
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
