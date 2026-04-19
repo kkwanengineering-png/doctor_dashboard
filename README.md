@@ -126,42 +126,42 @@ doctor_dashboard/          ← Root repository
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        PATIENT SIDE                                  │
-│                                                                      │
-│   ┌─────────────┐    BLE     ┌─────────────────────────────────┐   │
-│   │  Wearable   │──────────▶ │     Flutter Mobile App          │   │
-│   │  IMU Sensor │            │  (Angle, Reps, Fall Detection)  │   │
-│   │  (on thigh) │            └───────────┬─────────────────────┘   │
-└───────────────────────────-──────────────┼─────────────────────────┘
+│                            PATIENT SIDE                             │
+│                                                                     │
+│   ┌─────────────┐    BLE     ┌─────────────────────────────────┐    │
+│   │  Wearable   │──────────▶ │     Flutter Mobile App          │    │
+│   │  IMU Sensor │            │  (Angle, Reps, Fall Detection)  │    │
+│   │  (on thigh) │            └───────────┬─────────────────────┘    │
+└──────────────────────────────────────────┼──────────────────────────┘
                                            │ Firebase SDK (HTTPS/WSS)
                                            ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                      FIREBASE (Google Cloud)                          │
-│                                                                       │
+┌─────────────────────────────────────────────────────────────────────┐
+│                       FIREBASE (Google Cloud)                       │
+│                                                                     │
 │  ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐ │
 │  │   Realtime DB    │   │    Firestore     │   │    Firebase      │ │
-│  │  (Live Streaming)│   │(Session History) │   │ Authentication  │ │
-│  └────────┬─────────┘   └────────┬─────────┘   └─────────────────┘ │
+│  │  (Live Streaming)│   │(Session History) │   │ Authentication   │ │
+│  └────────┬─────────┘   └────────┬─────────┘   └──────────────────┘ │
 └───────────┼──────────────────────┼──────────────────────────────────┘
             │ Live Data            │ Historical Data
             ▼                      ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│              DOCTOR DASHBOARD (Flutter Web — Cloud Run)               │
-│                                                                       │
+┌─────────────────────────────────────────────────────────────────────┐
+│              DOCTOR DASHBOARD (Flutter Web — Cloud Run)             │
+│                                                                     │
 │   ┌─────────────────────────────────────────────────────────────┐   │
-│   │                    AiNoteService                             │   │
-│   │  1. Fetches last 10 sessions from Firestore                  │   │
-│   │  2. Builds structured clinical prompt with thresholds        │   │
-│   │  3. Calls Gemini 2.5 Flash via Firebase AI Logic SDK         │   │
-│   │  4. Returns a formal clinical paragraph to the dashboard     │   │
+│   │                       AiNoteService                         │   │
+│   │  1. Fetches last 10 sessions from Firestore                 │   │
+│   │  2. Builds structured clinical prompt with thresholds       │   │
+│   │  3. Calls Gemini 2.5 Flash via Firebase AI Logic SDK        │   │
+│   │  4. Returns a formal clinical paragraph to the dashboard    │   │
 │   └─────────────────────────────────────────────────────────────┘   │
-│                                │                                      │
-│                                ▼                                      │
+│                                  │                                  │
+│                                  ▼                                  │
 │   ┌─────────────────────────────────────────────────────────────┐   │
-│   │              Gemini 2.5 Flash (Google AI)                    │   │
-│   │      Autonomous multi-session reasoning & note generation    │   │
+│   │                Gemini 2.5 Flash (Google AI)                 │   │
+│   │      Autonomous multi-session reasoning & note generation   │   │
 │   └─────────────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────────┘
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 **Key Architectural Decisions:**
