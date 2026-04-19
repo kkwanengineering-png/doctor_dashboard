@@ -86,9 +86,9 @@ TeleRehab goes far beyond a simple data dashboard. It implements **Agentic AI** 
 - **⚠️ Intelligent Fall Detection Prioritisation**
   - If a fall event is captured, the AI **overrides its default note structure** and leads with the fall incident, potential causes, and an urgent recommendation for physical assessment. This demonstrates autonomous priority reasoning.
 
-- **🔐 Secure, Role-Based Access**
-  - Firebase Authentication restricts all data access to authorised practitioners only.
-  - Firestore & Realtime Database security rules enforce server-side authentication checks.
+- **🔐 Secure, Role-Based Access & Judge Demo**
+  - Firebase Authentication restricts data access to authorised practitioners.
+  - *Hackathon Note:* A "One-Click Demo Access" button has been embedded in the login portal to allow judging panels instant access to the dashboard without requiring credentials.
 
 - **🎨 Clinician-Optimised UI**
   - Glassmorphism-themed Flutter dashboard with animated backgrounds and clear data cards.
@@ -212,21 +212,21 @@ git clone https://github.com/kkwanengineering-png/doctor_dashboard.git
 cd doctor_dashboard
 ```
 
-### 2. Configure Firebase (Required — Keys are NOT in the repo)
+### 2. Configure Firebase (Mobile Setup)
 
-> ⚠️ **Security Notice:** All Firebase API keys and configuration files are excluded from this repository via `.gitignore`. You must generate your own local configuration by connecting to the Firebase project.
+> 💡 **Hackathon Deployment Note:** The `lib/firebase_options.dart` file has been **deliberately committed** to this repository. This allows Google Cloud Run to successfully execute the Docker web build straight from GitHub without missing configuration. Web API keys are strictly restricted via Firebase Security Rules.
+
+If you are developing the **Mobile App (Stitch)**, you still need to generate the local Android/iOS configuration since those are excluded:
 
 ```bash
 # Log in to Firebase
 firebase login
 
 # Configure Firebase for this project
-# This command regenerates firebase_options.dart and platform config files locally
 flutterfire configure --project=telerehab-a420e
 ```
 
 This will generate:
-- `lib/firebase_options.dart` (for the Doctor Dashboard)
 - `android/app/google-services.json`
 - `ios/Runner/GoogleService-Info.plist`
 
