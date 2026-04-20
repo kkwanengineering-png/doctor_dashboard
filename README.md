@@ -9,7 +9,7 @@
 [![Firebase](https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth%20%7C%20RTDB-FFCA28?logo=firebase)](https://firebase.google.com)
 [![Gemini](https://img.shields.io/badge/Gemini-2.5--Flash-4285F4?logo=google)](https://ai.google.dev)
 [![Google Cloud](https://img.shields.io/badge/Deployed%20on-Cloud%20Run-4285F4?logo=googlecloud)](https://cloud.google.com/run)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 
 > **A unified tele-rehabilitation system: a wearable sensor talking to a patient mobile app, bridged by Firebase, analysed by Gemini AI, and monitored live by a clinician web dashboard.**
 
